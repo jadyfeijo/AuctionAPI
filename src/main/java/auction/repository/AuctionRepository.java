@@ -26,4 +26,15 @@ public class AuctionRepository {
         }
         return null;
     }
+
+    public List<Auction> getByStatus(Status status) {
+
+        List<Auction> auctionsStatus = new ArrayList<>();
+
+        for(Auction auction:auctions){
+            if(auction.getStatus()==status)
+                auctionsStatus.add(auction);
+        }
+        return auctionsStatus;
+    }
 }
