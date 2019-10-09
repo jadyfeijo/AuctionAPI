@@ -8,7 +8,6 @@ public class Auction {
     private String item;
     private double highestOffer;
     private Status status;
-    private String bidderId;
 
     public Auction(String id, String item, Status status) {
         this.id = id;
@@ -38,14 +37,6 @@ public class Auction {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getBidderId() {
-        return bidderId;
-    }
-
-    public void setBidderId(String bidderId) {
-        this.bidderId = bidderId;
     }
 
     public String getId() {
