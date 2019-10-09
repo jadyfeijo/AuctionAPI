@@ -21,4 +21,8 @@ public class AuctionService {
     public List<Auction> getByStatus(Status status) {
         return repo.getByStatus(status);
     }
+
+    public Auction createAuction(String item) {
+        return repo.create(item,Status.OPEN);
+    }
 }

@@ -3,10 +3,7 @@ package auction.controller;
 import auction.domain.Auction;
 import auction.domain.enums.Status;
 import auction.service.AuctionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +17,15 @@ class AuctionController {
     public List<Auction> getAuctions(@PathVariable Status status){
         return service.getByStatus(status);
     }
+
+    @PutMapping("/create")
+    public Auction createAuction(@RequestBody AuctionRequest auction){
+        return service.createAuction(auction.item);
+    }
+
+}
+
+class AuctionRequest{
+    public String item;
 
 }

@@ -37,4 +37,12 @@ public class AuctionRepository {
         }
         return auctionsStatus;
     }
+
+    public Auction create(String item, Status status) {
+        Auction auction  = new Auction(String.valueOf(Math.random()),item,status);
+
+        auctions.add(auction);
+
+        return auction;
+    }
 }
