@@ -10,7 +10,8 @@ public class BidRepository {
     private List<Bid> bidds = new ArrayList<>();
 
     public BidRepository(){
-        bidds.add(new Bid ("111","Joao","0003",1000));
+        bidds.add(new Bid ("10101","111","Joao","0003",1000));
+
     }
 
     public Bid get(String bidId){

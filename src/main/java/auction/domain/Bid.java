@@ -14,6 +14,14 @@ public class Bid {
         this.bid = bid;
     }
 
+    public Bid(String id, String bidderId, String bidderName, String auctionId, double bid) {
+        this.id = id;
+        this.bidderId = bidderId;
+        this.bidderName = bidderName;
+        this.auctionId = auctionId;
+        this.bid = bid;
+    }
+
     public String getId() {
         return id;
     }
