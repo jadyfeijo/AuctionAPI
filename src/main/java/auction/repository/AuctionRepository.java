@@ -24,7 +24,7 @@ public class AuctionRepository {
 
     public Auction get(String id){
         for(Auction auction:auctions){
-            if(auction.getId()==id)
+            if(auction.getId().equals(id))
                 return auction;
         }
         return null;
@@ -41,17 +41,12 @@ public class AuctionRepository {
         return auctionsStatus;
     }
 
-    public void create(String item, Status status) {
-        Auction auction  = new Auction(String.valueOf(Math.random()),item,status);
-
-        save(auction);
-    }
-
     public Auction save(Auction auction){
         if(auction.getId()!=null){
             edit(auction);
             return  auction;
         }
+        auction.setId(String.valueOf(Math.random()));
         auctions.add(auction);
         return auction;
 
@@ -62,6 +57,6 @@ public class AuctionRepository {
 
         auctionToBeEdited.setStatus(auction.getStatus());
         auctionToBeEdited.setHighestOffer(auction.getHighestOffer());
-        auctionToBeEdited.setItem(auction.getId());
+        auctionToBeEdited.setItem(auction.getItem());
     }
 }
