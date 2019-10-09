@@ -9,8 +9,8 @@ import java.util.List;
 
 public class AuctionService {
 
-    private final AuctionRepository repo = new AuctionRepository();
-    private final BidService bidService = new BidService();
+    private final static AuctionRepository repo = new AuctionRepository();
+    private final static BidService bidService = new BidService();
 
 
     public Auction get(String id){

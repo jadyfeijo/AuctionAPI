@@ -32,4 +32,16 @@ public class BidRepository {
     public List<Bid> getAll() {
         return bidds;
     }
+
+    public List<Bid> getByAuction(String auctionId) {
+
+        List<Bid> biddsAuction = new ArrayList<>();
+
+        for(Bid bid: bidds){
+            if(bid.getAuctionId().equals(auctionId))
+                biddsAuction.add(bid);
+        }
+
+        return biddsAuction;
+    }
 }

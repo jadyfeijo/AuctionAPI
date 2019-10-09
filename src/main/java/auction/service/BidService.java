@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BidService {
 
-    private final BidRepository repo = new BidRepository();
+    private final static  BidRepository repo = new BidRepository();
 
     public Bid get(String id){
         return repo.get(id);
@@ -19,5 +19,9 @@ public class BidService {
 
     public Bid addBid (Bid bid){
         return repo.addBid(bid);
+    }
+
+    public List<Bid> getByAuction(String auctionId) {
+        return repo.getByAuction(auctionId);
     }
 }
