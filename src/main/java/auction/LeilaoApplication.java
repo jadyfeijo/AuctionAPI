@@ -10,6 +10,4 @@ public class LeilaoApplication {
 		SpringApplication.run(LeilaoApplication.class, args);
 	}
 
-
-
 }

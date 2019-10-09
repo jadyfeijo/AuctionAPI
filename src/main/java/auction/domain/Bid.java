@@ -4,6 +4,7 @@ public class Bid {
     private String id;
     private String bidderId;
     private String bidderName;
+    private String auctionId;
     private double bid;
 
     public String getId() {
@@ -36,5 +37,13 @@ public class Bid {
 
     public void setBidderName(String bidderName) {
         this.bidderName = bidderName;
+    }
+
+    public String getAuctionId() {
+        return auctionId;
+    }
+
+    public void setAuctionId(String auctionId) {
+        this.auctionId = auctionId;
     }
 }
