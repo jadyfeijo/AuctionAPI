@@ -1,6 +1,7 @@
 package auction.repository;
 
 import auction.domain.Auction;
+import auction.domain.Bid;
 import auction.domain.enums.Status;
 
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ public class AuctionRepository {
     public AuctionRepository() {
         auctions.add(new Auction("0001", "Davi", Status.OPEN));
         auctions.add(new Auction("0002", "Monalisa",Status.OPEN));
+        auctions.add(new Auction("0003", "Iphone",1000,Status.IN_PROGRESS));
+
     }
 
     public List<Auction> getAll(){
@@ -38,11 +41,27 @@ public class AuctionRepository {
         return auctionsStatus;
     }
 
-    public Auction create(String item, Status status) {
+    public void create(String item, Status status) {
         Auction auction  = new Auction(String.valueOf(Math.random()),item,status);
 
-        auctions.add(auction);
+        save(auction);
+    }
 
+    public Auction save(Auction auction){
+        if(auction.getId()!=null){
+            edit(auction);
+            return  auction;
+        }
+        auctions.add(auction);
         return auction;
+
+    }
+
+    public void edit(Auction auction){
+        Auction auctionToBeEdited = get(auction.getId());
+
+        auctionToBeEdited.setStatus(auction.getStatus());
+        auctionToBeEdited.setHighestOffer(auction.getHighestOffer());
+        auctionToBeEdited.setItem(auction.getId());
     }
 }
