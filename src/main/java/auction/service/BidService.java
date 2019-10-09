@@ -16,4 +16,8 @@ public class BidService {
     public List<Bid> getAll(){
         return repo.getAll();
     }
+
+    public Bid addBid (Bid bid){
+        return repo.addBid(bid);
+    }
 }

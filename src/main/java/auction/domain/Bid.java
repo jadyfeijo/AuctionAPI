@@ -7,6 +7,13 @@ public class Bid {
     private String auctionId;
     private double bid;
 
+    public Bid(String bidderId, String bidderName, String auctionId, double bid) {
+        this.bidderId = bidderId;
+        this.bidderName = bidderName;
+        this.auctionId = auctionId;
+        this.bid = bid;
+    }
+
     public String getId() {
         return id;
     }

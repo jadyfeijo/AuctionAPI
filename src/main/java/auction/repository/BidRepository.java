@@ -24,6 +24,7 @@ public class BidRepository {
     }
 
     public Bid addBid(Bid bid){
+        bid.setId(String.valueOf(Math.random()));
         bidds.add(bid);
         return bid;
     }
