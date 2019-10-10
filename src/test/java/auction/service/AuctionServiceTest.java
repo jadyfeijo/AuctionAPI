@@ -1,25 +1,55 @@
 package auction.service;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import auction.domain.Auction;
+import auction.domain.Bid;
+import auction.repository.AuctionRepository;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-@RunWith(Arquillian.class)
+
 public class AuctionServiceTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(AuctionService.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+
+
+    @Test(expected = RuntimeException.class)
+    public void addBid_willPass_whenBidValueIsLessThanAuctioHighestOffer() {
+        AuctionRepository auctionRepository = mock(AuctionRepository.class);
+        BidService bidService = mock(BidService.class);
+        AuctionService service = new AuctionService(auctionRepository, bidService);
+
+        Bid newBid = new Bid();
+        newBid.setAuctionId("0001");
+        newBid.setBid(0.0);
+
+        Auction auction = mock(Auction.class);
+        when(auction.isOpen()).thenReturn(true);
+        when(auctionRepository.get("0001")).thenReturn(auction);
+        when(auction.getHighestOffer()).thenReturn(2.0);
+
+        service.addBid(newBid);
+
     }
 
     @Test
-    public void createAuction() {
+    public void addBid_willPass_whenAuctionHighestOfferrReceiveBidValue() {
+        AuctionRepository auctionRepository = mock(AuctionRepository.class);
+        BidService bidService = mock(BidService.class);
+        AuctionService service = new AuctionService(auctionRepository, bidService);
+
+        Bid newBid = new Bid();
+        newBid.setAuctionId("0001");
+        newBid.setBid(3.0);
+
+        Auction auction = mock(Auction.class);
+        when(auction.isOpen()).thenReturn(true);
+        when(auctionRepository.get("0001")).thenReturn(auction);
+        when(auction.getHighestOffer()).thenReturn(2.0);
+
+        service.addBid(newBid);
+
+        verify(auction).setHighestOffer(3.0);
+
     }
+
+
 }
