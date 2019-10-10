@@ -27,6 +27,14 @@ public class Auction {
         this.status = status;
     }
 
+    public Auction(String id, String item, double highestOffer, Status status, Date inicialDate) {
+        this.id = id;
+        this.item = item;
+        this.highestOffer = highestOffer;
+        this.status = status;
+        this.inicialDate = inicialDate;
+    }
+
     public String getItem() {
         return item;
     }

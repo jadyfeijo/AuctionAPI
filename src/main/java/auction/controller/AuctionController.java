@@ -5,16 +5,19 @@ import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.service.AuctionService;
 import auction.service.BidService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Controller
 @RestController
 @RequestMapping("api/Auctions")
 class AuctionController {
 
-    private final AuctionService auctionService = new AuctionService();
-    private final BidService bidService = new BidService();
+    @Autowired
+    private  AuctionService auctionService;
 
     @GetMapping ("/{status}")
     public List<Auction> getAuctions(@PathVariable Status status){
@@ -33,11 +36,6 @@ class AuctionController {
 
         return auctionService.addBid(newBid);
     }
-
-
-
-
-
 }
 
 class AuctionRequest{

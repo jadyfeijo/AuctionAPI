@@ -3,13 +3,21 @@ package auction.service;
 import auction.domain.Auction;
 import auction.domain.Bid;
 import auction.repository.BidRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class BidService {
+    @Autowired
+    private BidRepository repo;
+    @Autowired
+    private AuctionService auctionService;
 
-    private final static  BidRepository repo = new BidRepository();
-    private final static AuctionService auctionService = new AuctionService();
+    public BidService(BidRepository repo){
+
+    }
+
 
     public Bid get(String id){
         return repo.get(id);
@@ -30,6 +38,9 @@ public class BidService {
     public Bid confirm(String auctionId,String bidderId) {
 
         Bid highestBid = repo.getHighestOffer(auctionId);
+        Auction auction = auctionService.get(auctionId);
+
+
 
         if(highestBid.getBidderId().equals(bidderId)){
             highestBid.setBuyer(true);

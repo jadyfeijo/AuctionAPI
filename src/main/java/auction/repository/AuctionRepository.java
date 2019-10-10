@@ -3,11 +3,13 @@ package auction.repository;
 import auction.domain.Auction;
 import auction.domain.Bid;
 import auction.domain.enums.Status;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class AuctionRepository {
 
     private List<Auction> auctions = new ArrayList<>();
@@ -15,7 +17,7 @@ public class AuctionRepository {
     public AuctionRepository() {
         auctions.add(new Auction("0001", "Davi", Status.OPEN));
         auctions.add(new Auction("0002", "Monalisa",Status.OPEN));
-        auctions.add(new Auction("0003", "Iphone",1000,Status.IN_PROGRESS));
+        auctions.add(new Auction("0003", "Iphone",1000,Status.OPEN,new Date()));
 
     }
 

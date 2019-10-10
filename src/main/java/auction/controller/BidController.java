@@ -2,17 +2,19 @@ package auction.controller;
 
 import auction.domain.Bid;
 import auction.service.BidService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Controller
 @RestController
 @RequestMapping("api/Bidds")
 public class BidController{
 
-
-    private final static BidService service = new BidService();
+    @Autowired
+    private BidService service;
 
         @GetMapping("/{auctionId}/queue")
         public List<Bid> getQueue(@PathVariable String auctionId){
