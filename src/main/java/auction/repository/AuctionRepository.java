@@ -50,8 +50,6 @@ public class AuctionRepository {
             return  auction;
         }
         auction.setId(String.valueOf(Math.random()));
-        auction.setStatus(Status.OPEN);
-        auction.setInicialDate(new Date());
         auctions.add(auction);
         return auction;
 

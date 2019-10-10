@@ -25,6 +25,7 @@ public class Auction {
         this.item = item;
         this.highestOffer = highestOffer;
         this.status = status;
+        this.inicialDate = new Date();
     }
 
     public Auction(String id, String item, double highestOffer, Status status, Date inicialDate) {
