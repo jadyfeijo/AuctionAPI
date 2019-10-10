@@ -15,17 +15,20 @@ import java.util.List;
 @Service
 public class AuctionService {
 
-    @Autowired
     private AuctionRepository repo;
-    @Autowired
     private BidService bidService;
 
+    @Autowired
+    public AuctionService(AuctionRepository auctionRepository, BidService bidService) {
+        this.repo = auctionRepository;
+        this.bidService = bidService;
+    }
 
-    public Auction get(String id){
+    public Auction get(String id) {
         return repo.get(id);
     }
 
-    public List<Auction> getAll(){
+    public List<Auction> getAll() {
         return repo.getAll();
     }
 
@@ -33,11 +36,11 @@ public class AuctionService {
 
         List<Auction> auctions = repo.getByStatus(status);
 
-        if(status==Status.OPEN){
+        if (status == Status.OPEN) {
 
             List<Auction> openAuctions = new ArrayList<>();
-            for(Auction auction:auctions){
-                if(isOpen(auction.getId()))
+            for (Auction auction : auctions) {
+                if (isOpen(auction.getId()))
                     openAuctions.add(auction);
 
             }
@@ -47,47 +50,44 @@ public class AuctionService {
     }
 
     public Auction createAuction(String item) {
-        Auction auction = new Auction(null,item,Status.OPEN);
+        Auction auction = new Auction(null, item, Status.OPEN);
         return repo.save(auction);
     }
 
     public Auction addBid(Bid newBid) {
-        Auction auction = get(newBid.getAuctionId());
+        String auctionId = newBid.getAuctionId();
+        Auction auction = repo.get(auctionId);
 
-       if(isOpen(auction.getId())) {
+        if (auction.isOpen()) {
 
-           if (auction.getHighestOffer() < newBid.getBid()) {
-               bidService.addBid(newBid);
-               auction.setHighestOffer(newBid.getBid());
+            if (auction.getHighestOffer() < newBid.getBid()) {
+                bidService.addBid(newBid);
+                auction.setHighestOffer(newBid.getBid());
 
-               return save(auction);
-           } else
-               throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
-       }
-
-       else {
-           auction.setStatus(Status.CLOSED);
-           save(auction);
-           throw new RuntimeException("This Auction cant receive any Bid");
-       }
+                return save(auction);
+            } else
+                throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
+        } else {
+            auction.setStatus(Status.CLOSED);
+            save(auction);
+            throw new RuntimeException("This Auction cant receive any Bid");
+        }
     }
 
-    public Auction save(Auction auction){
+    public Auction save(Auction auction) {
         return repo.save(auction);
     }
 
-    public boolean isOpen(String auctionId){
+    public boolean isOpen(String auctionId) {
         Auction auction = get(auctionId);
 
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(auction.getInicialDate());
 
-        calendar.add(Calendar.MINUTE,15);
-        if(calendar.getTime().after(new Date())) {
+        calendar.add(Calendar.MINUTE, 15);
+        if (calendar.getTime().after(new Date())) {
             return true;
-        }
-        else
-        {
+        } else {
             auction.setStatus(Status.CLOSED);
             return false;
         }
