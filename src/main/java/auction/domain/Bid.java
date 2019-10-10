@@ -6,6 +6,11 @@ public class Bid {
     private String bidderName;
     private String auctionId;
     private double bid;
+    private boolean possibleBuyer;
+    private boolean buyer;
+
+    public Bid() {
+    }
 
     public Bid(String bidderId, String bidderName, String auctionId, double bid) {
         this.bidderId = bidderId;
@@ -14,12 +19,13 @@ public class Bid {
         this.bid = bid;
     }
 
-    public Bid(String id, String bidderId, String bidderName, String auctionId, double bid) {
+    public Bid(String id, String bidderId, String bidderName, String auctionId, double bid,boolean possibleBuyer) {
         this.id = id;
         this.bidderId = bidderId;
         this.bidderName = bidderName;
         this.auctionId = auctionId;
         this.bid = bid;
+        this.possibleBuyer =possibleBuyer;
     }
 
     public String getId() {
@@ -60,5 +66,21 @@ public class Bid {
 
     public void setAuctionId(String auctionId) {
         this.auctionId = auctionId;
+    }
+
+    public boolean isPossibleBuyer() {
+        return possibleBuyer;
+    }
+
+    public void setPossibleBuyer(boolean possibleBuyer) {
+        this.possibleBuyer = possibleBuyer;
+    }
+
+    public boolean isBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(boolean buyer) {
+        this.buyer = buyer;
     }
 }
