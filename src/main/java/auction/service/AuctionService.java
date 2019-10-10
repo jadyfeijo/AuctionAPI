@@ -5,6 +5,8 @@ import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.repository.AuctionRepository;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AuctionService {
@@ -31,16 +33,32 @@ public class AuctionService {
     }
 
     public Auction addBid(Bid newBid) {
-        Auction auction = repo.get(newBid.getAuctionId());
+        Auction auction = get(newBid.getAuctionId());
 
-        if(auction.getHighestOffer()<newBid.getBid() && auction.getStatus().equals(Status.IN_PROGRESS)){
-            bidService.addBid(newBid);
-            auction.setHighestOffer(newBid.getBid());
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(auction.getInicialDate());
 
-            return  repo.save(auction);
-        }
+       calendar.add(Calendar.MINUTE,15);
 
-        else
-            throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
+       if(calendar.getTime().after(new Date())) {
+
+           if (auction.getHighestOffer() < newBid.getBid()) {
+               bidService.addBid(newBid);
+               auction.setHighestOffer(newBid.getBid());
+
+               return save(auction);
+           } else
+               throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
+       }
+
+       else {
+           auction.setStatus(Status.CLOSED);
+           save(auction);
+           throw new RuntimeException("This Auction cant receive any Bid");
+       }
+    }
+
+    public Auction save(Auction auction){
+        return repo.save(auction);
     }
 }
