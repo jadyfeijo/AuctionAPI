@@ -75,4 +75,18 @@ public class Auction {
     public void setInicialDate(Date inicialDate) {
         this.inicialDate = inicialDate;
     }
+
+    public boolean isOpen() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.getInicialDate());
+
+        calendar.add(Calendar.MINUTE, 15);
+        if (calendar.getTime().after(new Date())) {
+            return true;
+        } else {
+            this.setStatus(Status.CLOSED);
+            return false;
+        }
+    }
 }
