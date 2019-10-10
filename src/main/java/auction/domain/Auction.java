@@ -2,12 +2,17 @@ package auction.domain;
 
 import auction.domain.enums.Status;
 
+import java.util.Calendar;
+import java.util.Date;
+
+
 public class Auction {
 
     private String id;
     private String item;
     private double highestOffer;
     private Status status;
+    private Date inicialDate;
 
     public Auction(String id, String item, Status status) {
         this.id = id;
@@ -52,5 +57,13 @@ public class Auction {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Date getInicialDate() {
+        return inicialDate;
+    }
+
+    public void setInicialDate(Date inicialDate) {
+        this.inicialDate = inicialDate;
     }
 }
