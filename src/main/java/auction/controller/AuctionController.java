@@ -16,12 +16,12 @@ class AuctionController {
     private final AuctionService auctionService = new AuctionService();
     private final BidService bidService = new BidService();
 
-    @GetMapping ("/get/{status}")
+    @GetMapping ("/{status}")
     public List<Auction> getAuctions(@PathVariable Status status){
         return auctionService.getByStatus(status);
     }
 
-    @PutMapping("/create")
+    @PostMapping("/create")
     public Auction createAuction(@RequestBody AuctionRequest auction){
         return auctionService.createAuction(auction.item);
     }
@@ -34,10 +34,10 @@ class AuctionController {
         return auctionService.addBid(newBid);
     }
 
-    @GetMapping("/{auctionId}/queue")
-    public List<Bid> getQueue(@PathVariable String auctionId){
-        return bidService.getByAuction(auctionId);
-    }
+
+
+
+
 }
 
 class AuctionRequest{
