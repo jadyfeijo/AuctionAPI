@@ -5,6 +5,7 @@ import auction.domain.Bid;
 import auction.domain.enums.Status;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AuctionRepository {
@@ -47,6 +48,8 @@ public class AuctionRepository {
             return  auction;
         }
         auction.setId(String.valueOf(Math.random()));
+        auction.setStatus(Status.OPEN);
+        auction.setInicialDate(new Date());
         auctions.add(auction);
         return auction;
 
