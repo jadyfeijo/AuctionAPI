@@ -40,7 +40,12 @@ public class AuctionService {
 
             List<Auction> openAuctions = new ArrayList<>();
             for (Auction auction : auctions) {
-                if (isOpen(auction.getId()))
+                if (auction.isOpen()){
+                    if(auction.getStatus()!=Status.OPEN)
+                        auction.setStatus(Status.OPEN);
+                        auction=save(auction);
+                    }
+
                     openAuctions.add(auction);
 
             }
@@ -50,8 +55,15 @@ public class AuctionService {
     }
 
     public Auction createAuction(String item) {
-        Auction auction = new Auction(null, item, Status.OPEN);
+        Auction auction = generateAuction(item);
         return repo.save(auction);
+    }
+
+    public Auction generateAuction(String item) {
+        Auction auction = new Auction();
+        auction.setStatus(Status.OPEN);
+        auction.setItem(item);
+        return auction;
     }
 
     public Auction addBid(Bid newBid) {
@@ -78,18 +90,4 @@ public class AuctionService {
         return repo.save(auction);
     }
 
-    public boolean isOpen(String auctionId) {
-        Auction auction = get(auctionId);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(auction.getInicialDate());
-
-        calendar.add(Calendar.MINUTE, 15);
-        if (calendar.getTime().after(new Date())) {
-            return true;
-        } else {
-            auction.setStatus(Status.CLOSED);
-            return false;
-        }
-    }
 }
