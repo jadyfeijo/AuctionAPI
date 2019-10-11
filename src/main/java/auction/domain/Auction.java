@@ -14,6 +14,9 @@ public class Auction {
     private Status status;
     private Date inicialDate;
 
+    public Auction() {
+    }
+
     public Auction(String id, String item, Status status) {
         this.id = id;
         this.item = item;
