@@ -2,9 +2,17 @@ package auction.service;
 
 import auction.domain.Auction;
 import auction.domain.Bid;
+import auction.domain.enums.Status;
 import auction.repository.AuctionRepository;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
+import javax.validation.constraints.AssertTrue;
+
+import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
 
@@ -52,4 +60,38 @@ public class AuctionServiceTest {
     }
 
 
+    @Test
+    public void createAuction_shouldPass_whenReturnedAuctionHasOpenStatus() {
+        AuctionRepository auctionRepository = mock(AuctionRepository.class);
+        BidService bidService = mock(BidService.class);
+        AuctionService service = new AuctionService(auctionRepository, bidService);
+
+        service.createAuction("item");
+
+        verify(auctionRepository, times(1)).save(any(Auction.class));
+
+    }
+
+    @Test
+    public void generateAuction_shouldPass_whenReturnedAuctionHasOpenStatusAndItemEqualsItemParameter() {
+        AuctionRepository auctionRepository = mock(AuctionRepository.class);
+        BidService bidService = mock(BidService.class);
+        AuctionService service = new AuctionService(auctionRepository, bidService);
+
+        Auction auction = service.generateAuction("ITEM NAME");
+
+        assertEquals(auction.getStatus(), Status.OPEN);
+        assertEquals(auction.getItem(), "ITEM NAME");
+        assertEquals(auction.getHighestOffer(), 0.0);
+
+    }
+
+    @Test
+    public void getByStatus_shouldPass_ifStatusParameterIsOpenThanAllAuctionReturnedHasOpenStatus() {
+        AuctionRepository auctionRepository = mock(AuctionRepository.class);
+        BidService bidService = mock(BidService.class);
+        AuctionService auctionService = new AuctionService(auctionRepository, bidService);
+
+
+    }
 }
