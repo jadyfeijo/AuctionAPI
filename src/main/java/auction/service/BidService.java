@@ -14,10 +14,10 @@ public class BidService {
     @Autowired
     private AuctionService auctionService;
 
-    public BidService(BidRepository repo){
-
+    public BidService(BidRepository repo,AuctionService auctionService) {
+        this.repo=repo;
+        this.auctionService = auctionService;
     }
-
 
     public Bid get(String id){
         return repo.get(id);
@@ -49,9 +49,6 @@ public class BidService {
         else{
             throw new RuntimeException("Your bid is not the highest");
         }
-
-
-
 
     }
 
