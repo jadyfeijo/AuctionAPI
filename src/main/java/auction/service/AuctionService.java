@@ -4,6 +4,7 @@ import auction.domain.Auction;
 import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.repository.AuctionRepository;
+import auction.repository.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,11 @@ import java.util.List;
 public class AuctionService {
 
     private AuctionRepository repo;
-    private BidService bidService;
-
+    private BidRepository bidRepository;
     @Autowired
-    public AuctionService(AuctionRepository auctionRepository, BidService bidService) {
+    public AuctionService(AuctionRepository auctionRepository,BidRepository bidRepository) {
         this.repo = auctionRepository;
-        this.bidService = bidService;
+        this.bidRepository = bidRepository;
     }
 
     public Auction get(String id) {
@@ -71,7 +71,7 @@ public class AuctionService {
         if (auction.isOpen()) {
 
             if (auction.getHighestOffer() < newBid.getBid()) {
-                bidService.addBid(newBid);
+                bidRepository.save(newBid);
                 auction.setHighestOffer(newBid.getBid());
 
                 return save(auction);
