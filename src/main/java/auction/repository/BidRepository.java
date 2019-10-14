@@ -70,12 +70,10 @@ public class BidRepository {
 
         List<Bid> biddsAuction = getByAuction(auctionId);
 
-        double highestOffer=0;
         Bid highestBid = new Bid();
 
          for (Bid bid : biddsAuction) {
-                if (bid.getBid() > highestOffer && bid.isPossibleBuyer()) {
-                    highestOffer = bid.getBid();
+                if (bid.getBid() > highestBid.getBid() && bid.isPossibleBuyer()) {
                     highestBid = bid;
                 }
             }
