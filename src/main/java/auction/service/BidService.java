@@ -54,7 +54,7 @@ public class BidService {
 
     public Bid recuse(String auctionId, String bidderId) {
 
-        Bid recusedBid = getLastBid(auctionId,bidderId);
+        Bid recusedBid = repo.getLastBid(auctionId,bidderId);
 
         recusedBid.setPossibleBuyer(false);
         repo.save(recusedBid);
