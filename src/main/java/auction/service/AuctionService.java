@@ -79,7 +79,7 @@ public class AuctionService {
                 throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
         } else {
             auction.setStatus(Status.CLOSED);
-            save(auction);
+            repo.save(auction);
             throw new RuntimeException("This Auction cant receive any Bid");
         }
     }

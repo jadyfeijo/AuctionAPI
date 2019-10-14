@@ -65,6 +65,27 @@ public class AuctionServiceTest {
 
     }
 
+    @Test(expected = RuntimeException.class)
+    public void addBid_willPass_whenAuctionIsNotOpen() {
+        AuctionRepository auctionRepository = mock(AuctionRepository.class);
+        BidRepository bidRepository = mock(BidRepository.class);
+        AuctionService service = new AuctionService(auctionRepository, bidRepository);
+
+        Bid newBid = new Bid();
+        newBid.setAuctionId("0001");
+        newBid.setBid(3.0);
+
+        Auction auction = mock(Auction.class);
+        when(auction.isOpen()).thenReturn(false);
+        when(auctionRepository.get("0001")).thenReturn(auction);
+
+
+        service.addBid(newBid);
+
+        then(auctionRepository).should().save(auction);
+    }
+
+
 
     @Test
     public void createAuction_shouldPass_whenReturnedAuctionHasOpenStatus() {
