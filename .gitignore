@@ -22,4 +22,4 @@ gradlew.bat
 
 .vscode/
 
-/.gradle/
+/.gradle/*
