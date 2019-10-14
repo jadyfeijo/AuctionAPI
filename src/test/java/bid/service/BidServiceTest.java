@@ -66,7 +66,7 @@ public class BidServiceTest {
 
         service.recuse(auctionId,bidderId);
         verify(bid).setPossibleBuyer(false);
-        verify(auctionService).changeHighestOffer(auctionId,bid.getBid(),newHighestBid.getBid());
+        verify(auctionService).changeHighestOffer(auctionId,newHighestBid.getBid());
         
     }
 }
