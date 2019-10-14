@@ -34,20 +34,18 @@ public class AuctionService {
 
     public List<Auction> getByStatus(Status status) {
 
-        List<Auction> auctions = repo.getByStatus(status);
+       List<Auction> auctions = repo.getByStatus(status);
 
-        if (status == Status.OPEN) {
-
+       if (status == Status.OPEN) {
             List<Auction> openAuctions = new ArrayList<>();
             for (Auction auction : auctions) {
-                if (auction.isOpen()) {
-                    if (auction.getStatus() != Status.OPEN) {
-                        auction.setStatus(Status.OPEN);
-                        auction = save(auction);
-                    }
-
-                    openAuctions.add(auction);
+                if (!auction.isOpen()) {
+                    auction.setStatus(Status.CLOSED);
+                    repo.save(auction);
                 }
+                else
+                    openAuctions.add(auction);
+
             }
             return openAuctions;
         }
