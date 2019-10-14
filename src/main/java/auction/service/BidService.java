@@ -59,12 +59,9 @@ public class BidService {
         recusedBid.setPossibleBuyer(false);
         repo.save(recusedBid);
 
-        Auction auction = auctionService.get(auctionId);
-
-        if(auction.getHighestOffer()==recusedBid.getBid()){
-            auction.setHighestOffer(repo.getHighestOffer(auction.getId()).getBid());
-            auctionService.save(auction);
-        }
+        Bid newHighestBid = repo.getHighestOffer(auctionId);
+        double highestOffer = newHighestBid.getBid();
+        auctionService.changeHighestOffer(auctionId, highestOffer);
 
         return recusedBid;
     }
