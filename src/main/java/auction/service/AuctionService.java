@@ -40,14 +40,14 @@ public class AuctionService {
 
             List<Auction> openAuctions = new ArrayList<>();
             for (Auction auction : auctions) {
-                if (auction.isOpen()){
-                    if(auction.getStatus()!=Status.OPEN)
+                if (auction.isOpen()) {
+                    if (auction.getStatus() != Status.OPEN) {
                         auction.setStatus(Status.OPEN);
-                        auction=save(auction);
+                        auction = save(auction);
                     }
 
                     openAuctions.add(auction);
-
+                }
             }
             return openAuctions;
         }
@@ -90,4 +90,13 @@ public class AuctionService {
         return repo.save(auction);
     }
 
+    public Auction changeHighestOffer(String auctionId, double highestOffer) {
+
+        Auction auction = repo.get(auctionId);
+
+        auction.setHighestOffer(highestOffer);
+
+        return repo.save(auction);
+
+    }
 }
