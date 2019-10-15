@@ -24,9 +24,15 @@ public class BidServiceTest {
         when(bid.getBidderId()).thenReturn("111");
         when(bidRepository.getHighestOffer("0003")).thenReturn(bid);
 
+
+        Auction auction = mock(Auction.class);
+        when(auctionService.get(auctionId)).thenReturn(auction);
+
+
         service.confirm(auctionId,bidderId);
 
         verify(bid).setBuyer(true);
+        verify(auctionService).save(auction);
 
     }
     @Test (expected = RuntimeException.class)
