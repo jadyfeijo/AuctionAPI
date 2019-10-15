@@ -82,14 +82,21 @@ public class BidService {
 
         Bid recusedBid = getLastBid(auctionId, bidderId);
 
-        recusedBid.setPossibleBuyer(false);
-        repo.save(recusedBid);
+        if(auctionService.get(auctionId).getStatus()!=Status.CONFIRMED) {
 
-        Bid newHighestBid = repo.getHighestOffer(auctionId);
-        double highestOffer = newHighestBid.getBid();
-        auctionService.changeHighestOffer(auctionId, highestOffer);
+            recusedBid.setPossibleBuyer(false);
+            repo.save(recusedBid);
 
-        return recusedBid;
+            Bid newHighestBid = repo.getHighestOffer(auctionId);
+            double highestOffer = newHighestBid.getBid();
+            auctionService.changeHighestOffer(auctionId, highestOffer);
+
+            return recusedBid;
+        }
+
+        else
+            throw new RuntimeException("This Auction is already confirmed");
+
     }
 
     public Bid getLastBid(String auctionId, String bidderId) {

@@ -193,4 +193,26 @@ public class BidServiceTest {
         verify(auctionService).changeHighestOffer(auctionId,newHighestBid.getBid());
         
     }
+
+    @Test (expected = RuntimeException.class)
+    public void recuse_shouldPass_whenAuctionStatusIsConfirmed(){
+
+        AuctionService auctionService = mock(AuctionService.class);
+        BidRepository bidRepository = mock(BidRepository.class);
+        BidService service = new BidService(bidRepository,auctionService);
+
+        String bidderId = "111";
+        String auctionId = "0003";
+
+        Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn("1234");
+        when(bidRepository.getLastBid(auctionId, bidderId)).thenReturn(bid);
+
+        Auction auction = mock(Auction.class);
+        when(auction.getStatus()).thenReturn(Status.CONFIRMED);
+        when(auctionService.get(auctionId)).thenReturn(auction);
+
+        service.recuse(auctionId,bidderId);
+
+    }
 }
