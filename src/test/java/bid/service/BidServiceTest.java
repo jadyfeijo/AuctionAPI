@@ -142,7 +142,6 @@ public class BidServiceTest {
     }
 
 
-
     @Test
     public void recuse_shouldPass_whenIsPossibleBuyerWasSettedToFalseAndAuctionHighestOfferWasChanged(){
 
@@ -154,7 +153,7 @@ public class BidServiceTest {
         String auctionId = "0003";
 
         Bid bid = mock(Bid.class);
-        when(bid.getBid()).thenReturn(1500.0);
+        when(bid.getId()).thenReturn("1234");
         when(bidRepository.getLastBid(auctionId, bidderId)).thenReturn(bid);
 
         Bid newHighestBid = mock(Bid.class);

@@ -8,27 +8,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class BidService {
-    @Autowired
     private BidRepository repo;
-    @Autowired
     private AuctionService auctionService;
 
-    public BidService(BidRepository repo,AuctionService auctionService) {
-        this.repo=repo;
+    @Autowired
+    public BidService(BidRepository repo, AuctionService auctionService) {
+        this.repo = repo;
         this.auctionService = auctionService;
     }
 
-    public Bid get(String id){
+    public Bid get(String id) {
         return repo.get(id);
     }
 
-    public List<Bid> getAll(){
+    public List<Bid> getAll() {
         return repo.getAll();
     }
 
-    public Bid create (Bid bid){
+    public Bid create(Bid bid) {
         return repo.save(bid);
     }
 
@@ -56,31 +56,28 @@ public class BidService {
         }
     }
 
-    public Bid confirm(String auctionId,String bidderId) {
+    public Bid confirm(String auctionId, String bidderId) {
 
         Bid highestBid = repo.getHighestOffer(auctionId);
         Auction auction = auctionService.get(auctionId);
 
 
-    if(!auction.isOpen()) {
-        if (highestBid.getBidderId().equals(bidderId)) {
-            highestBid.setBuyer(true);
-            auction.setStatus(Status.CONFIRMED);
-            auctionService.save(auction);
-            return repo.save(highestBid);
-        } else {
-            throw new RuntimeException("Your bid is not the highest");
-        }
-    }
-    else
-        throw new RuntimeException("This Auction is not closed yet");
-
-
+        if (!auction.isOpen()) {
+            if (highestBid.getBidderId().equals(bidderId)) {
+                highestBid.setBuyer(true);
+                auction.setStatus(Status.CONFIRMED);
+                auctionService.save(auction);
+                return repo.save(highestBid);
+            } else {
+                throw new RuntimeException("Your bid is not the highest");
+            }
+        } else
+            throw new RuntimeException("This Auction is not closed yet");
     }
 
     public Bid recuse(String auctionId, String bidderId) {
 
-        Bid recusedBid = repo.getLastBid(auctionId,bidderId);
+        Bid recusedBid = getLastBid(auctionId, bidderId);
 
         recusedBid.setPossibleBuyer(false);
         repo.save(recusedBid);
@@ -92,10 +89,10 @@ public class BidService {
         return recusedBid;
     }
 
-    public Bid getLastBid(String auctionId,String bidderId){
-        Bid bid = repo.getLastBid(auctionId,bidderId);
+    public Bid getLastBid(String auctionId, String bidderId) {
+        Bid bid = repo.getLastBid(auctionId, bidderId);
 
-        if(bid.getId()!=null)
+        if (bid.getId() != null)
             return bid;
 
         else
@@ -103,14 +100,14 @@ public class BidService {
 
     }
 
-    public  Bid getHighestOffer(String auctionId){
+    public Bid getHighestOffer(String auctionId) {
         Bid bid = repo.getHighestOffer(auctionId);
 
-        if(bid.getId()!=null)
+        if (bid.getId() != null)
             return bid;
 
         else
-            throw new RuntimeException("This Auction has no Bid yet");
+            throw new RuntimeException("This Auction has no Bid");
 
     }
 }
