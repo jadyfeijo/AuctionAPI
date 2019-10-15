@@ -3,13 +3,11 @@ package service;
 import auction.domain.Auction;
 import auction.domain.Bid;
 import auction.domain.enums.Status;
-import auction.repository.AuctionRepository;
 import auction.repository.BidRepository;
 import auction.service.AuctionService;
 import auction.service.BidService;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
@@ -213,6 +211,35 @@ public class BidServiceTest {
         when(auctionService.get(auctionId)).thenReturn(auction);
 
         service.recuse(auctionId,bidderId);
+    }
+    @Test (expected = RuntimeException.class)
+    public void getLastBid_shouldPass_whenBidIdIsNull(){
+        AuctionService auctionService = mock(AuctionService.class);
+        BidRepository bidRepository = mock(BidRepository.class);
+        BidService service = new BidService(bidRepository,auctionService);
+
+        String bidderId = "111";
+        String auctionId = "0003";
+
+
+        Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn(null);
+        when(service.getLastBid(auctionId,bidderId)).thenReturn(bid);
 
     }
+
+    @Test (expected = RuntimeException.class)
+    public void getHighestOffer_shouldPass_whenBidIdIsNull(){
+        AuctionService auctionService = mock(AuctionService.class);
+        BidRepository bidRepository = mock(BidRepository.class);
+        BidService service = new BidService(bidRepository,auctionService);
+
+        String auctionId = "0003";
+
+        Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn(null);
+        when(service.getHighestOffer(auctionId)).thenReturn(bid);
+
+    }
+
 }
