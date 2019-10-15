@@ -59,7 +59,7 @@ public class BidRepository {
         List<Bid> biddsAuction = new ArrayList<>();
 
         for(Bid bid: bidds){
-            if(bid.getAuctionId().equals(auctionId))
+            if(bid.getAuctionId().equals(auctionId)&& bid.isPossibleBuyer())
                 biddsAuction.add(bid);
         }
 
@@ -86,7 +86,7 @@ public class BidRepository {
       Bid lastBid=new Bid();
 
         for(Bid bid: bidds){
-            if(bid.getBidderId().equals(bidderId) && bid.getAuctionId().equals(auctionId))
+            if(bid.getBidderId().equals(bidderId) && bid.getAuctionId().equals(auctionId) && bid.isPossibleBuyer() )
                 lastBid=bid;
         }
         return lastBid;
