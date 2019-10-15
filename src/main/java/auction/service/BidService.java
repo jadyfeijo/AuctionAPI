@@ -42,16 +42,19 @@ public class BidService {
         Auction auction = auctionService.get(auctionId);
 
 
-
-        if(highestBid.getBidderId().equals(bidderId)){
+    if(!auction.isOpen()) {
+        if (highestBid.getBidderId().equals(bidderId)) {
             highestBid.setBuyer(true);
             auction.setStatus(Status.CONFIRMED);
             auctionService.save(auction);
             return repo.save(highestBid);
-        }
-        else{
+        } else {
             throw new RuntimeException("Your bid is not the highest");
         }
+    }
+    else
+        throw new RuntimeException("This Auction is not closed yet");
+
 
     }
 
