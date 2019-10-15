@@ -52,6 +52,30 @@ public class BidServiceTest {
         service.confirm(auctionId,bidderId);
     }
 
+    @Test (expected = RuntimeException.class)
+    public void confirm_shouldPass_whenAuctionIsNotClosed(){
+
+        AuctionService auctionService = mock(AuctionService.class);
+        BidRepository bidRepository = mock(BidRepository.class);
+        BidService service = new BidService(bidRepository,auctionService);
+
+        String auctionId = "0003";
+        String bidderId = "111";
+
+        Bid bid = mock(Bid.class);
+        when(bid.getBidderId()).thenReturn("111");
+        when(bidRepository.getHighestOffer("0003")).thenReturn(bid);
+
+
+        Auction auction = mock(Auction.class);
+        when(auction.isOpen()).thenReturn(true);
+        when(auctionService.get(auctionId)).thenReturn(auction);
+        
+        service.confirm(auctionId,bidderId);
+    }
+
+
+
     @Test
     public void recuse_shouldPass_whenIsPossibleBuyerWasSettedToFalseAndAuctionHighestOfferWasChanged(){
 
