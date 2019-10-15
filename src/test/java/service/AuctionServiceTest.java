@@ -1,8 +1,9 @@
-package auction.service;
+package service;
 
 import auction.domain.Auction;
 import auction.domain.enums.Status;
 import auction.repository.AuctionRepository;
+import auction.service.AuctionService;
 import org.junit.Test;
 
 import java.text.ParseException;

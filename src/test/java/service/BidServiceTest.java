@@ -1,4 +1,4 @@
-package bid.service;
+package service;
 
 import auction.domain.Auction;
 import auction.domain.Bid;
