@@ -17,11 +17,10 @@ import java.util.List;
 public class AuctionService {
 
     private AuctionRepository repo;
-    private BidRepository bidRepository;
+
     @Autowired
-    public AuctionService(AuctionRepository auctionRepository,BidRepository bidRepository) {
+    public AuctionService(AuctionRepository auctionRepository) {
         this.repo = auctionRepository;
-        this.bidRepository = bidRepository;
     }
 
     public Auction get(String id) {

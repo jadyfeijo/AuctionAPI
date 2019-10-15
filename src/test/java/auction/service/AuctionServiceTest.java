@@ -1,14 +1,9 @@
 package auction.service;
 
 import auction.domain.Auction;
-import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.repository.AuctionRepository;
-import auction.repository.BidRepository;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-
-import javax.validation.constraints.AssertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
@@ -28,8 +22,7 @@ public class AuctionServiceTest {
     @Test
     public void createAuction_shouldPass_whenReturnedAuctionHasOpenStatus() {
         AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService service = new AuctionService(auctionRepository, bidRepository);
+        AuctionService service = new AuctionService(auctionRepository);
 
         service.createAuction("item");
 
@@ -40,8 +33,7 @@ public class AuctionServiceTest {
     @Test
     public void generateAuction_shouldPass_whenReturnedAuctionHasOpenStatusAndItemEqualsItemParameter() {
         AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService service = new AuctionService(auctionRepository, bidRepository);
+        AuctionService service = new AuctionService(auctionRepository);
 
         Auction auction = service.generateAuction("ITEM NAME");
 
@@ -54,8 +46,7 @@ public class AuctionServiceTest {
     @Test
     public void getByStatus_shouldPass_ifStatusParameterIsOpenAndTheAuctionInicialDateplus15minIsAfterNowDateThenRepoShouldSaveAnAuction() throws ParseException {
         AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService auctionService = new AuctionService(auctionRepository, bidRepository);
+        AuctionService auctionService = new AuctionService(auctionRepository);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -77,8 +68,7 @@ public class AuctionServiceTest {
     @Test
     public void getByStatus_shouldPass_ifStatusParameterIsOpenAndTheAuctionInicialDateIsAfterNowThenRepoShoulNotSave(){
         AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService auctionService = new AuctionService(auctionRepository, bidRepository);
+        AuctionService auctionService = new AuctionService(auctionRepository);
 
         Status status = Status.OPEN;
 
