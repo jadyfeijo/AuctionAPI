@@ -88,6 +88,7 @@ public class BidServiceTest {
         String bidderId = "111";
 
         Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn("123");
         when(bid.getBidderId()).thenReturn("111");
         when(bidRepository.getHighestOffer("0003")).thenReturn(bid);
 
