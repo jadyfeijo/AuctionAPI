@@ -2,6 +2,7 @@ package service;
 
 import auction.domain.Auction;
 import auction.domain.Bid;
+import auction.domain.enums.Status;
 import auction.repository.AuctionRepository;
 import auction.repository.BidRepository;
 import auction.service.AuctionService;
@@ -114,6 +115,7 @@ public class BidServiceTest {
         String bidderId = "222";
 
         Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn("123");
         when(bid.getBidderId()).thenReturn("111");
         when(bidRepository.getHighestOffer("0003")).thenReturn(bid);
 
@@ -131,6 +133,7 @@ public class BidServiceTest {
         String bidderId = "111";
 
         Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn("123");
         when(bid.getBidderId()).thenReturn("111");
         when(bidRepository.getHighestOffer("0003")).thenReturn(bid);
 
@@ -139,6 +142,30 @@ public class BidServiceTest {
         when(auction.isOpen()).thenReturn(true);
         when(auctionService.get(auctionId)).thenReturn(auction);
         
+        service.confirm(auctionId,bidderId);
+    }
+
+    @Test (expected = RuntimeException.class)
+    public void confirm_shouldPass_whenAuctionStatusIsAlreadyConfirmed(){
+
+        AuctionService auctionService = mock(AuctionService.class);
+        BidRepository bidRepository = mock(BidRepository.class);
+        BidService service = new BidService(bidRepository,auctionService);
+
+        String auctionId = "0003";
+        String bidderId = "111";
+
+        Bid bid = mock(Bid.class);
+        when(bid.getId()).thenReturn("123");
+        when(bid.getBidderId()).thenReturn("111");
+        when(bidRepository.getHighestOffer("0003")).thenReturn(bid);
+
+
+        Auction auction = mock(Auction.class);
+        when(auction.isOpen()).thenReturn(false);
+        when(auction.getStatus()).thenReturn(Status.CONFIRMED);
+        when(auctionService.get(auctionId)).thenReturn(auction);
+
         service.confirm(auctionId,bidderId);
     }
 

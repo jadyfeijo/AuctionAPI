@@ -58,10 +58,10 @@ public class BidService {
 
     public Bid confirm(String auctionId, String bidderId) {
 
-        Bid highestBid = repo.getHighestOffer(auctionId);
+        Bid highestBid = getHighestOffer(auctionId);
         Auction auction = auctionService.get(auctionId);
 
-
+    if(auction.getStatus()!=Status.CONFIRMED)
         if (!auction.isOpen()) {
             if (highestBid.getBidderId().equals(bidderId)) {
                 highestBid.setBuyer(true);
@@ -73,6 +73,9 @@ public class BidService {
             }
         } else
             throw new RuntimeException("This Auction is not closed yet");
+        else
+            throw new RuntimeException("This Auction is already confirmed");
+
     }
 
     public Bid recuse(String auctionId, String bidderId) {
