@@ -64,26 +64,6 @@ public class AuctionService {
         return auction;
     }
 
-    public Auction addBid(Bid newBid) {
-        String auctionId = newBid.getAuctionId();
-        Auction auction = repo.get(auctionId);
-
-        if (auction.isOpen()) {
-
-            if (auction.getHighestOffer() < newBid.getBid()) {
-                bidRepository.save(newBid);
-                auction.setHighestOffer(newBid.getBid());
-
-                return save(auction);
-            } else
-                throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
-        } else {
-            auction.setStatus(Status.CLOSED);
-            repo.save(auction);
-            throw new RuntimeException("This Auction cant receive any Bid");
-        }
-    }
-
     public Auction save(Auction auction) {
         return repo.save(auction);
     }

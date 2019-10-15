@@ -28,14 +28,6 @@ class AuctionController {
     public Auction createAuction(@RequestBody AuctionRequest auction){
         return auctionService.createAuction(auction.item);
     }
-
-    @PostMapping("/{auctionId}/newBid")
-    public Auction newBid(@PathVariable String auctionId,@RequestBody BidRequest bid){
-
-        Bid newBid = new Bid(bid.bidderId,bid.name,auctionId,bid.bid);
-
-        return auctionService.addBid(newBid);
-    }
 }
 
 class AuctionRequest{

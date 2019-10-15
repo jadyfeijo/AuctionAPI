@@ -25,68 +25,6 @@ import static org.mockito.Mockito.*;
 public class AuctionServiceTest {
 
 
-    @Test(expected = RuntimeException.class)
-    public void addBid_willPass_whenBidValueIsLessThanAuctioHighestOffer() {
-        AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService service = new AuctionService(auctionRepository, bidRepository);
-
-        Bid newBid = new Bid();
-        newBid.setAuctionId("0001");
-        newBid.setBid(0.0);
-
-        Auction auction = mock(Auction.class);
-        when(auction.isOpen()).thenReturn(true);
-        when(auctionRepository.get("0001")).thenReturn(auction);
-        when(auction.getHighestOffer()).thenReturn(2.0);
-
-        service.addBid(newBid);
-
-    }
-
-    @Test
-    public void addBid_willPass_whenAuctionHighestOfferrReceiveBidValue() {
-        AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService service = new AuctionService(auctionRepository, bidRepository);
-
-        Bid newBid = new Bid();
-        newBid.setAuctionId("0001");
-        newBid.setBid(3.0);
-
-        Auction auction = mock(Auction.class);
-        when(auction.isOpen()).thenReturn(true);
-        when(auctionRepository.get("0001")).thenReturn(auction);
-        when(auction.getHighestOffer()).thenReturn(2.0);
-
-        service.addBid(newBid);
-
-        verify(auction).setHighestOffer(3.0);
-
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void addBid_willPass_whenAuctionIsNotOpen() {
-        AuctionRepository auctionRepository = mock(AuctionRepository.class);
-        BidRepository bidRepository = mock(BidRepository.class);
-        AuctionService service = new AuctionService(auctionRepository, bidRepository);
-
-        Bid newBid = new Bid();
-        newBid.setAuctionId("0001");
-        newBid.setBid(3.0);
-
-        Auction auction = mock(Auction.class);
-        when(auction.isOpen()).thenReturn(false);
-        when(auctionRepository.get("0001")).thenReturn(auction);
-
-
-        service.addBid(newBid);
-
-        then(auctionRepository).should().save(auction);
-    }
-
-
-
     @Test
     public void createAuction_shouldPass_whenReturnedAuctionHasOpenStatus() {
         AuctionRepository auctionRepository = mock(AuctionRepository.class);

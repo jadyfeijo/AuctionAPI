@@ -28,12 +28,32 @@ public class BidService {
         return repo.getAll();
     }
 
-    public Bid addBid (Bid bid){
+    public Bid create (Bid bid){
         return repo.save(bid);
     }
 
     public List<Bid> getByAuction(String auctionId) {
         return repo.getByAuction(auctionId);
+    }
+
+    public Auction addBid(Bid newBid) {
+        String auctionId = newBid.getAuctionId();
+        Auction auction = auctionService.get(auctionId);
+
+        if (auction.isOpen()) {
+
+            if (auction.getHighestOffer() < newBid.getBid()) {
+                repo.save(newBid);
+                auction.setHighestOffer(newBid.getBid());
+
+                return auctionService.save(auction);
+            } else
+                throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
+        } else {
+            auction.setStatus(Status.CLOSED);
+            auctionService.save(auction);
+            throw new RuntimeException("This Auction cant receive any Bid");
+        }
     }
 
     public Bid confirm(String auctionId,String bidderId) {
