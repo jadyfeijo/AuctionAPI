@@ -1,11 +1,9 @@
-package service;
+package auction.service;
 
 import auction.domain.Auction;
 import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.repository.BidRepository;
-import auction.service.AuctionService;
-import auction.service.BidService;
 import org.junit.Test;
 
 import static org.mockito.BDDMockito.then;

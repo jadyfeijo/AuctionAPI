@@ -1,7 +1,6 @@
 package auction.repository;
 
 import auction.domain.Auction;
-import auction.domain.Bid;
 import auction.domain.enums.Status;
 import org.springframework.stereotype.Repository;
 

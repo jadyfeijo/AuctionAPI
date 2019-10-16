@@ -1,10 +1,8 @@
 package auction.controller;
 
 import auction.domain.Auction;
-import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.service.AuctionService;
-import auction.service.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

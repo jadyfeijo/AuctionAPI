@@ -1,6 +1,6 @@
-package auction;
+package auction.domain;
 
-import auction.enums.Status;
+import auction.domain.enums.Status;
 
 import java.util.Calendar;
 import java.util.Date;
