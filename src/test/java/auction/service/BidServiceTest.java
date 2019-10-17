@@ -12,8 +12,8 @@ import static org.mockito.Mockito.*;
 public class BidServiceTest {
 
 
-    @Test(expected = RuntimeException.class)
-    public void addBid_willPass_whenBidValueIsLessThanAuctioHighestOffer() {
+    @Test(expected = Exception.class)
+    public void addBid_willPass_whenBidValueIsLessThanAuctioHighestOffer() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -33,7 +33,7 @@ public class BidServiceTest {
     }
 
     @Test
-    public void addBid_willPass_whenAuctionHighestOfferrReceiveBidValue() {
+    public void addBid_willPass_whenAuctionHighestOfferrReceiveBidValue() throws Exception {
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
         BidService service = new BidService(bidRepository,auctionService);
@@ -53,8 +53,8 @@ public class BidServiceTest {
 
     }
 
-    @Test(expected = RuntimeException.class)
-    public void addBid_willPass_whenAuctionIsNotOpen() {
+    @Test(expected = Exception.class)
+    public void addBid_willPass_whenAuctionIsNotOpen() throws Exception {
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
         BidService service = new BidService(bidRepository,auctionService);
@@ -75,7 +75,7 @@ public class BidServiceTest {
 
 
     @Test
-    public void confirm_shouldPass_whenBidderIdIsEqualHighestOfferBidderId() {
+    public void confirm_shouldPass_whenBidderIdIsEqualHighestOfferBidderId() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -100,8 +100,8 @@ public class BidServiceTest {
         verify(auctionService).save(auction);
 
     }
-    @Test (expected = RuntimeException.class)
-    public void confirm_shouldPass_whenBidderIdIsNotEqualHighestOfferBidderId(){
+    @Test (expected = Exception.class)
+    public void confirm_shouldPass_whenBidderIdIsNotEqualHighestOfferBidderId() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -118,8 +118,8 @@ public class BidServiceTest {
         service.confirm(auctionId,bidderId);
     }
 
-    @Test (expected = RuntimeException.class)
-    public void confirm_shouldPass_whenAuctionIsNotClosed(){
+    @Test (expected = Exception.class)
+    public void confirm_shouldPass_whenAuctionIsNotClosed() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -141,8 +141,8 @@ public class BidServiceTest {
         service.confirm(auctionId,bidderId);
     }
 
-    @Test (expected = RuntimeException.class)
-    public void confirm_shouldPass_whenAuctionStatusIsAlreadyConfirmed(){
+    @Test (expected = Exception.class)
+    public void confirm_shouldPass_whenAuctionStatusIsAlreadyConfirmed() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -167,7 +167,7 @@ public class BidServiceTest {
 
 
     @Test
-    public void recuse_shouldPass_whenIsPossibleBuyerWasSettedToFalseAndAuctionHighestOfferWasChanged(){
+    public void recuse_shouldPass_whenIsPossibleBuyerWasSettedToFalseAndAuctionHighestOfferWasChanged() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -184,14 +184,18 @@ public class BidServiceTest {
         when(newHighestBid.getBid()).thenReturn(1000.0);
         when(bidRepository.getHighestOffer(auctionId)).thenReturn(newHighestBid);
 
+        Auction auction = mock(Auction.class);
+        when(auction.getStatus()).thenReturn(Status.OPEN);
+        when(auctionService.get(auctionId)).thenReturn(auction);
+
         service.recuse(auctionId,bidderId);
         verify(bid).setPossibleBuyer(false);
         verify(auctionService).changeHighestOffer(auctionId,newHighestBid.getBid());
         
     }
 
-    @Test (expected = RuntimeException.class)
-    public void recuse_shouldPass_whenAuctionStatusIsConfirmed(){
+    @Test (expected = Exception.class)
+    public void recuse_shouldPass_whenAuctionStatusIsConfirmed() throws Exception {
 
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
@@ -210,8 +214,8 @@ public class BidServiceTest {
 
         service.recuse(auctionId,bidderId);
     }
-    @Test (expected = RuntimeException.class)
-    public void getLastBid_shouldPass_whenBidIdIsNull(){
+    @Test (expected = Exception.class)
+    public void getLastBid_shouldPass_whenBidIdIsNull() throws Exception {
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
         BidService service = new BidService(bidRepository,auctionService);
@@ -226,8 +230,8 @@ public class BidServiceTest {
 
     }
 
-    @Test (expected = RuntimeException.class)
-    public void getHighestOffer_shouldPass_whenBidIdIsNull(){
+    @Test (expected = Exception.class)
+    public void getHighestOffer_shouldPass_whenBidIdIsNull() throws Exception {
         AuctionService auctionService = mock(AuctionService.class);
         BidRepository bidRepository = mock(BidRepository.class);
         BidService service = new BidService(bidRepository,auctionService);

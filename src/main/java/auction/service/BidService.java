@@ -5,7 +5,9 @@ import auction.domain.Bid;
 import auction.domain.enums.Status;
 import auction.repository.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class BidService {
         return repo.getByAuction(auctionId);
     }
 
-    public Auction addBid(Bid newBid) {
+    public Auction addBid(Bid newBid) throws Exception {
         String auctionId = newBid.getAuctionId();
         Auction auction = auctionService.get(auctionId);
 
@@ -48,15 +50,15 @@ public class BidService {
 
                 return auctionService.save(auction);
             } else
-                throw new RuntimeException("Your bid value is less than the highest Offer in this Auction");
+                throw new Exception("Your bid value is less than the highest Offer in this Auction");
         } else {
             auction.setStatus(Status.CLOSED);
             auctionService.save(auction);
-            throw new RuntimeException("This Auction cant receive any Bid");
+            throw new Exception("This Auction cant receive any Bid");
         }
     }
 
-    public Bid confirm(String auctionId, String bidderId) {
+    public Bid confirm(String auctionId, String bidderId) throws Exception {
 
         Bid highestBid = getHighestOffer(auctionId);
         Auction auction = auctionService.get(auctionId);
@@ -69,16 +71,16 @@ public class BidService {
                 auctionService.save(auction);
                 return repo.save(highestBid);
             } else {
-                throw new RuntimeException("Your bid is not the highest");
+                throw new Exception("Your bid is not the highest");
             }
         } else
-            throw new RuntimeException("This Auction is not closed yet");
+            throw new Exception("This Auction is not closed yet");
         else
-            throw new RuntimeException("This Auction is already confirmed");
+            throw new Exception("This Auction is already confirmed");
 
     }
 
-    public Bid recuse(String auctionId, String bidderId) {
+    public Bid recuse(String auctionId, String bidderId) throws Exception {
 
         Bid recusedBid = getLastBid(auctionId, bidderId);
 
@@ -95,29 +97,29 @@ public class BidService {
         }
 
         else
-            throw new RuntimeException("This Auction is already confirmed");
+            throw new Exception("This Auction is already confirmed");
 
     }
 
-    public Bid getLastBid(String auctionId, String bidderId) {
+    public Bid getLastBid(String auctionId, String bidderId) throws Exception {
         Bid bid = repo.getLastBid(auctionId, bidderId);
 
         if (bid.getId() != null)
             return bid;
 
         else
-            throw new RuntimeException("This Auction/Bidder has no Bid yet");
+            throw new Exception("This Auction/Bidder has no Bid yet");
 
     }
 
-    public Bid getHighestOffer(String auctionId) {
+    public Bid getHighestOffer(String auctionId) throws Exception {
         Bid bid = repo.getHighestOffer(auctionId);
 
         if (bid.getId() != null)
             return bid;
 
         else
-            throw new RuntimeException("This Auction has no Bid");
+            throw new Exception("This Auction has no Bid");
 
     }
 }
