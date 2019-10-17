@@ -49,7 +49,6 @@ public class AuctionRepository {
             return  auction;
         }
         auction.setId(String.valueOf(Math.random()));
-        auction.setInicialDate(new Date());
         auctions.add(auction);
         return auction;
 

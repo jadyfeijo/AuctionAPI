@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,6 +48,7 @@ public class AuctionService {
         return repo.getByStatus(status);
     }
 
+
     public Auction createAuction(String item) {
         Auction auction = generateAuction(item);
         return repo.save(auction);
@@ -55,6 +57,7 @@ public class AuctionService {
     public Auction generateAuction(String item) {
         Auction auction = new Auction();
         auction.setStatus(Status.OPEN);
+        auction.setInicialDate(new Date());
         auction.setItem(item);
         return auction;
     }
